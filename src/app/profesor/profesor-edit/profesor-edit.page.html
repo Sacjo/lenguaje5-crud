@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/profesor-list" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title
+      >{{ profesorId ? 'Editar Profesor' : 'Nuevo Profesor' }}</ion-title
+    >
+
+    <ion-buttons slot="primary" (click)="incluirOEditarProfesor()">
+      <ion-button fill="solid">
+        Guardar
+        <ion-icon slot="end" name="checkmark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form [formGroup]="registroForm" class="form">
+    <ion-list>
+      <ion-item disabled="true">
+        <ion-label position="floating">Id #</ion-label>
+        <ion-input formControlName="id" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input formControlName="nombre" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Apellido</ion-label>
+        <ion-input formControlName="apellido" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">documento</ion-label>
+        <ion-input formControlName="documento" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Casado</ion-label>
+        <ion-toggle formControlName="casado"></ion-toggle>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Registro</ion-label>
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+      </ion-item>
+    </ion-list>
+  </form>
+
+
+<ion-modal [keepContentsMounted]="true">
+  <ng-template>
+    <ion-datetime
+      id="datetime"
+      [(ngModel)]="fechaSeleccionada"
+       (ionChange)="onDatetimeChange($event)"
+      presentation="date-time"
+      [formatOptions]="{
+        date: {
+          weekday: 'short',
+          month: 'long',
+          day: '2-digit',
+        },
+        time: {
+          hour: '2-digit',
+          minute: '2-digit',
+        },
+      }"
+    ></ion-datetime>
+  </ng-template>
+</ion-modal>
+  <!-- Segun el profe -->
+  <!-- <ion-input [(ngModel)] = "alumnoId" disabled="true" > </ion-input>
+  <ion-input [(ngModel)] = "alumno.codigo"></ion-input>
+  <ion-input [(ngModel)] = "alumno.nombre"></ion-input>
+  <ion-input [(ngModel)] = "alumno.apellido"></ion-input> -->
+
+  <!-- <ion-button expand="block" (click)="incluirOEditarAlumno()">Guardar </ion-button> -->
+</ion-content>

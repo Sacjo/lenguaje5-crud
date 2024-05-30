@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/alumno-list" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ alumnoId ? 'Editar Alumno' : 'Nuevo Alumno' }}</ion-title>
+
+    <ion-buttons slot="primary" (click)="incluirOEditarAlumno()">
+      <ion-button fill="solid">
+        Guardar
+        <ion-icon slot="end" name="checkmark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form [formGroup]="registroForm" class="form">
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Id #</ion-label>
+        <ion-input formControlName="id" type="text" readonly></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Código</ion-label>
+        <ion-input formControlName="codigo" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input formControlName="nombre" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Apellido</ion-label>
+        <ion-input formControlName="apellido" type="text"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-item *ngIf="alumnoId">
+      <img [src]="avatar" alt="" />
+    </ion-item>
+
+    <ion-item *ngIf="alumnoId">
+      <label for="fileUpload"></label>
+      <input id="fileUpload" type="file" #upload accept=".png,.jpg" />
+      <ion-button fill="solid" (click)="uploadFile(upload)">
+        Subir
+        <ion-icon slot="end" name="cloud-upload"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </form>
+
+  <ion-button *ngIf="alumnoId" fill="solid" (click)="eliminarAlumno(alumnoId)">
+    Eliminar
+    <ion-icon slot="end" name="trash"></ion-icon>
+  </ion-button>
+</ion-content>

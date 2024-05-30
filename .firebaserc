@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "lpv-ionic": {
+      "hosting": {
+        "app": [
+          "lpv-ionic"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "lpv-ionic"
+  }
+}
