@@ -27,7 +27,7 @@ export class AlumnoListPage implements OnInit {
   ) {}
 
   listaAlumnos = new Array();
-  maxResults = 15;
+  maxResults = 5;
   ultimoAlumnoRecuperado: any = null;
   isSearch: boolean = false;
   query = '';
@@ -45,7 +45,7 @@ export class AlumnoListPage implements OnInit {
   }
 
   listarAlumnosSinFiltro = () => {
-    console.log('Listar alumnos');
+    console.log('Listar alumnos sin filtro');
     const alumnosRef = collection(this.firestore, 'alumno');
 
     let q;
@@ -84,8 +84,13 @@ export class AlumnoListPage implements OnInit {
         re.forEach((doc) => {
           let alumno: any = doc.data();
           alumno.id = doc.id;
-          this.listaAlumnos.push(alumno);
+          // this.listaAlumnos.push(alumno);
+          if (!this.listaAlumnos.some((a) => a.id === alumno.id)) {
+            this.listaAlumnos.push(alumno);
+          }
         });
+      } else {
+        console.log('No hay más alumnos para cargar.');
       }
     });
 
@@ -144,58 +149,57 @@ export class AlumnoListPage implements OnInit {
   };
 
   listarAlumnos = () => {
-    console.log("listar alumnos");
+    console.log('listar alumnos');
     const alumnosRef = collection(this.firestore, 'alumno');
 
-    if ((this.query+"").length > 0){
+    if ((this.query + '').length > 0) {
       let q = undefined;
-      if (this.ultimoAlumnoRecuperado){
-        q= query(alumnosRef,
-          where ("nombre", ">=", this.query.toUpperCase()),
-          where ("nombre", "<=", this.query.toLowerCase() + '\uf8ff'),
+      if (this.ultimoAlumnoRecuperado) {
+        q = query(
+          alumnosRef,
+          where('nombre', '>=', this.query.toUpperCase()),
+          where('nombre', '<=', this.query.toLowerCase() + '\uf8ff'),
           limit(this.maxResults),
-          startAfter(this.ultimoAlumnoRecuperado));
+          startAfter(this.ultimoAlumnoRecuperado)
+        );
       } else {
-        q= query(alumnosRef,
-          where ("nombre", ">=", this.query.toUpperCase()),
-          where ("nombre", "<=", this.query.toLowerCase() + '\uf8ff'),
-          limit(this.maxResults));
+        q = query(
+          alumnosRef,
+          where('nombre', '>=', this.query.toUpperCase()),
+          where('nombre', '<=', this.query.toLowerCase() + '\uf8ff'),
+          limit(this.maxResults)
+        );
       }
 
-      getDocs(q).then(re => {
-        if (!re.empty){
+      getDocs(q).then((re) => {
+        if (!re.empty) {
           let listaAlumnos = new Array();
 
           //Retirar lo que no corresponde
-          for (let i= 0; i < re.docs.length; i++){
-            const doc : any = re.docs[i].data();
-            if(doc.nombre.toUpperCase().
-                  startsWith(
-                      this.query.toUpperCase().charAt(0) 
-            )){
-              listaAlumnos.push(re.docs[i])
+          for (let i = 0; i < re.docs.length; i++) {
+            const doc: any = re.docs[i].data();
+            if (
+              doc.nombre
+                .toUpperCase()
+                .startsWith(this.query.toUpperCase().charAt(0))
+            ) {
+              listaAlumnos.push(re.docs[i]);
             }
-
-            
           }
 
-          this.ultimoAlumnoRecuperado = re.docs[listaAlumnos.length-1];
+          this.ultimoAlumnoRecuperado = re.docs[listaAlumnos.length - 1];
 
-            for(let i = 0; i < listaAlumnos.length; i++){
-              const doc : any = listaAlumnos[i];
-              //console.log("queryy", doc.id, "data", doc.data());
-              let alumno : any = doc.data();
-              alumno.id = doc.id;
-              this.listaAlumnos.push(alumno);
-            };
-
+          for (let i = 0; i < listaAlumnos.length; i++) {
+            const doc: any = listaAlumnos[i];
+            //console.log("queryy", doc.id, "data", doc.data());
+            let alumno: any = doc.data();
+            alumno.id = doc.id;
+            this.listaAlumnos.push(alumno);
+          }
         }
       });
-
     } else {
       this.listarAlumnosSinFiltro();
     }
-
-  }
-
+  };
 }
