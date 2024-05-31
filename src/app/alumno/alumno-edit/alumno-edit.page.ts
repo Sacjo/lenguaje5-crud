@@ -30,6 +30,7 @@ export class AlumnoEditPage implements OnInit {
     codigo: new FormControl(''),
     nombre: new FormControl(''),
     apellido: new FormControl(''),
+    fecha: new FormControl(''),
   });
 
   alumnoId: string | null = null;
@@ -106,6 +107,9 @@ export class AlumnoEditPage implements OnInit {
             codigo: this.alumno['codigo'] || '',
             nombre: this.alumno['nombre'] || '',
             apellido: this.alumno['apellido'] || '',
+            fecha:
+              this.alumno['fecha'] ||
+              '',
           });
         } else {
           console.log('No se encontró el alumno con el ID proporcionado.');

@@ -27,7 +27,7 @@ export class AlumnoListPage implements OnInit {
   ) {}
 
   listaAlumnos = new Array();
-  maxResults = 5;
+  maxResults = 15;
   ultimoAlumnoRecuperado: any = null;
   isSearch: boolean = false;
   query = '';
